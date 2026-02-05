@@ -1,0 +1,13 @@
+{
+  "name": "inventory-management-server",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/bootstrap.js",
+    "start": "node src/bootstrap.js",
+    "prisma": "prisma"
+  },
+  "license": "MIT",
+  "description": "Backend service for inventory management"
+}
