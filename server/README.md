@@ -39,18 +39,19 @@ Built with **Node.js**, **Express.js**, **Prisma ORM**, and **PostgreSQL**. A co
 
 ```
 inventory-management/
-├─ client/              # Frontend (React, Vue, etc.)
-├─ server/              # Backend Node.js + Express + Prisma
-│  ├─ prisma/           # Prisma schema & migrations
+├─ client/                 # Frontend (React, Vue, etc.)
+├─ server/                 # Backend (Node.js + Express + Prisma)
+│  ├─ prisma/              # Prisma schema & migrations
 │  ├─ src/
-│  │  ├─ controllers/   # Route logic
-│  │  ├─ routes/        # Express routes
-│  │  ├─ services/      # Business logic
-│  │  ├─ middlewares/   # Auth & error handling
-│  │  ├─ utils/         # Helpers
-│  │  └─ index.js       # Server entry point
+│  │  ├─ config/           # App & environment config
+│  │  ├─ cron/             # Scheduled jobs
+│  │  ├─ modules/          # Feature-based Express routes
+│  │  ├─ middleware/       # Auth & error handling
+│  │  ├─ utils/            # Helper functions
+│  │  ├─ bootstrap.js      # App initialization
+│  │  └─ server.js         # Server entry point
 │  ├─ package.json
-│  └─ .env              # Environment variables
+│  └─ .env                 # Environment variables
 ├─ .gitignore
 └─ README.md
 ```
