@@ -6,8 +6,24 @@
   "scripts": {
     "dev": "nodemon src/bootstrap.js",
     "start": "node src/bootstrap.js",
-    "prisma": "prisma"
+    "prisma": "prisma",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
   },
   "license": "MIT",
-  "description": "Backend service for inventory management"
+  "description": "Backend service for inventory management",
+  "dependencies": {
+    "@prisma/client": "^6.19.2",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.1",
+    "node-cron": "^4.2.1",
+    "uuid": "^13.0.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "prisma": "^6.19.2"
+  }
 }

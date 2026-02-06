@@ -46,32 +46,42 @@ Built with a modular, scalable architecture.
 
 ```
 inventory-management/
-├─ client/              # Frontend (React.js)
-│  ├─ public/           # Static files
+├─ client/                     # Frontend (React + Vite)
+│  ├─ public/                  # Static files
 │  ├─ src/
-│  │  ├─ components/    # Reusable UI components
-│  │  ├─ pages/         # Main views (Dashboard, Items, Suppliers)
-│  │  ├─ services/      # API calls to backend
-│  │  ├─ context/       # State management
-│  │  ├─ hooks/         # Custom React hooks
-│  │  ├─ App.js
-│  │  └─ index.js
+│  │  ├─ components/           # Reusable UI components
+│  │  ├─ pages/                # Main views (Dashboard, Items, Suppliers)
+│  │  ├─ services/             # API calls to backend
+│  │  ├─ context/              # State management
+│  │  ├─ hooks/                # Custom React hooks
+│  │  ├─ App.jsx
+│  │  ├─ main.jsx
+│  │  └─ index.css
+│  ├─ index.html
 │  ├─ package.json
-│  └─ .env              # API URL
+│  ├─ eslint.config.js
+│  ├─ vite.config.js
+│  ├─ .gitignore
+│  ├─ .env                     # Environment variables
+│  └─ README.md
 │
-├─ server/              # Backend (Node.js + Express + Prisma)
-│  ├─ prisma/           # Prisma schema & migrations
+├─ server/                     # Backend (Node.js + Express + Prisma)
+│  ├─ prisma/                  # Prisma schema & migrations
 │  ├─ src/
-│  │  ├─ controllers/   # Route logic
-│  │  ├─ routes/        # Express routes
-│  │  ├─ services/      # Business logic
-│  │  ├─ middlewares/   # Auth & error handling
-│  │  ├─ utils/         # Helpers
-│  │  └─ index.js       # Server entry point
+│  │  ├─ config/               # App & environment config
+│  │  ├─ cron/                 # Scheduled jobs
+│  │  ├─ modules/              # Feature-based routes
+│  │  ├─ middleware/           # Auth & error handling
+│  │  ├─ utils/                # Helper functions
+│  │  ├─ bootstrap.js          # App initialization
+│  │  └─ server.js             # Server entry point
 │  ├─ package.json
-│  └─ .env              # DB URL and secrets
-├─ .gitignore
-└─ README.md
+│  ├─ prisma.config.ts
+│  ├─ .gitignore
+│  ├─ .env                     # Environment variables
+│  └─ README.md
+│
+└─ README.md                   # Root project documentation
 ```
 
 ---
