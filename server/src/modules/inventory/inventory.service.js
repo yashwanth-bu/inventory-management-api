@@ -83,10 +83,17 @@ export function getDeletedInventories() {
 }
 
 export function findFirstInventoryByName(name) {
-  return prisma.inventory.findFirst({
-    where: { name, deletedAt: null },
+  return prisma.inventory.findMany({
+    where: {
+      name: {
+        contains: name,
+        mode: "insensitive"
+      },
+      deletedAt: null
+    }
   });
 }
+
 
 /* =========================
    CRON / CLEANUP

@@ -1,3 +1,5 @@
+import prisma from "../../config/prisma.client.js";
+
 import { registerInventorySchema, updateInventorySchema } from "./inventory.model.js";
 import {
   // queries
@@ -12,6 +14,7 @@ import {
   uniqueInventoryById, existingActiveInventory,
   uniqueInventoryByIdWithDeleteAt
 } from "./inventory.service.js";
+
 import asyncHandler from "../../middleware/async.handler.js";
 import sendResponse from "../../utils/send.response.js";
 
@@ -20,6 +23,23 @@ import sendResponse from "../../utils/send.response.js";
    ========================= */
 
 export const getAllInventoriesController = asyncHandler(async function (req, res) {
+  const { name } = req.query;
+
+  // UPDATED SEARCH LOGIC
+  if (name) {
+    const inventories = await prisma.inventory.findMany({
+      where: {
+        name: {
+          contains: name,
+          mode: "insensitive"
+        },
+        deletedAt: null
+      }
+    });
+
+    return sendResponse(res, 200, { data: inventories });
+  }
+
   const inventories = await getAllInventories();
 
   if (inventories.length === 0) {
@@ -28,6 +48,7 @@ export const getAllInventoriesController = asyncHandler(async function (req, res
 
   sendResponse(res, 200, { data: inventories });
 });
+
 
 export const getInventoryByIdController = asyncHandler(async function (req, res) {
   const inventory = await getInventoryById(req.params.id);
@@ -83,14 +104,14 @@ export const deleteInventoryController = asyncHandler(async function (req, res) 
 });
 
 export const recoverInventoryController = asyncHandler(async function (req, res) {
-  const inventory = await uniqueInventoryById(req.params.id)
+  const inventory = await uniqueInventoryById(req.params.id);
 
   if (!inventory) {
     res.status(404);
     throw new Error("INVENTORY_NOT_FOUND");
   }
 
-  const existingActive = await existingActiveInventory(inventory.name)
+  const existingActive = await existingActiveInventory(inventory.name);
 
   if (existingActive) {
     res.status(409);
@@ -114,7 +135,7 @@ export const getDeletedInventoriesController = asyncHandler(async function (req,
 
 
 /* =========================
-   Use query param
+   Use query param (unchanged)
    ========================= */
 
 export const getInventoryByNameController = asyncHandler(async (req, res) => {

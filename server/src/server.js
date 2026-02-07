@@ -1,6 +1,7 @@
 import express from "express"
 import helmet from "helmet";
 import morgan from "morgan";
+import cors from "cors";
 
 import inventoryRouter from "./modules/inventory/inventory.router.js"
 import errorHandler from './middleware/error.handler.js'
@@ -15,6 +16,8 @@ server.use(express.json())
 server.use(helmet());
 
 server.use(morgan("dev"));
+
+server.use(cors());
 
 server.get("/api/health", function (req, res) {
   res.status(200).json({ status: "OK" });
