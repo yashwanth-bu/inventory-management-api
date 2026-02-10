@@ -11,7 +11,7 @@ function errorHandler(err, req, res, next) {
     console.error(err.message);
   }
 
-  // 1️⃣ Zod errors
+  // Zod errors
   const zodError = zodErrors(err);
   if (zodError) {
     return sendResponse(res, zodError.statusCode, {
@@ -20,14 +20,17 @@ function errorHandler(err, req, res, next) {
     });
   }
 
-  // 2️⃣ Controller-defined status
+  // Controller status
   const controllerStatus =
-    res.statusCode && res.statusCode !== 200 ? res.statusCode : null;
+    res.statusCode && res.statusCode !== 200
+      ? res.statusCode
+      : null;
 
-  // 3️⃣ Prisma errors
+  // Prisma errors
   const { statusCode, errorCode } = prismaErrors(err);
 
-  const finalStatus = controllerStatus ?? statusCode ?? 500;
+  const finalStatus =
+    controllerStatus ?? statusCode ?? 500;
 
   const finalMessage =
     env.nodeEnv === "development"

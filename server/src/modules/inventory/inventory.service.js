@@ -1,104 +1,75 @@
-import prisma from "../../config/prisma.client.js"
+import prisma from "../../config/prisma.client.js";
 
-/* =========================
-   USER-FACING QUERIES
-   ========================= */
-
-export function getAllInventories() {
+// get inventories by user id
+export function findByUserId(userId) {
   return prisma.inventory.findMany({
-    where: { deletedAt: null },
+    where: { userId, deletedAt: null }
   });
 }
 
-export function getInventoryById(id) {
+// get inventory by id and user id
+export function findById(id, userId) {
   return prisma.inventory.findFirst({
-    where: { id, deletedAt: null },
+    where: { id, userId, deletedAt: null }
   });
 }
 
-/* =========================
-   MUTATIONS
-   ========================= */
-
+// create inventory
 export function createInventory(data) {
   return prisma.inventory.create({ data });
 }
 
-export function updateInventory(id, data) {
+// update inventory
+export function updateInventory(id, userId, data) {
   return prisma.inventory.update({
-    where: { id },
+    where: { id, userId },
     data,
   });
 }
 
-/* =========================
-   SOFT DELETE & RECOVERY
-   ========================= */
-
-export function uniqueInventoryByIdWithDeleteAt(id){
-  return prisma.inventory.findUnique({
-    where: { id, deletedAt: null }
-  });
-}
-
-export function deleteInventory(id) {
+// delete inventory
+export function deleteInventory(id, userId) {
   return prisma.inventory.update({
-    where: { id },
+    where: { id, userId },
     data: { deletedAt: new Date() },
   });
 }
 
-export function uniqueInventoryById(id){
-  return prisma.inventory.findUnique({
-    where: { id }
-  });
-}
-
-export function existingActiveInventory(name){
-  return prisma.inventory.findFirst({
-    where: { name, deletedAt: null },
-  })
-}
-
-export async function recoverInventory(id) {
+// recover inventory
+export function recoverInventory(id, userId) {
   return prisma.inventory.update({
-    where: { id },
+    where: { id, userId },
     data: { deletedAt: null },
   });
 }
 
+// find inventory by name and user id
+export function findByName(name, userId) {
+  return prisma.inventory.findFirst({
+    where: { name, userId, deletedAt: null }
+  });
+}
 
-/* =========================
-   ADMIN / INTERNAL
-   ========================= */
+// find inventory by unique id and user id
+export function findByUniqueId(id, userId) {
+  return prisma.inventory.findUnique({
+    where: { id, userId }
+  });
+}
 
+// get all inventories for admin
 export function getAllInventoriesAdmin() {
   return prisma.inventory.findMany();
 }
 
-export function getDeletedInventories() {
+// find deleted inventories by user user id
+export function findDeletedInventories(userId) {
   return prisma.inventory.findMany({
-    where: { deletedAt: { not: null } },
+    where: { deletedAt: { not: null }, userId },
   });
 }
 
-export function findFirstInventoryByName(name) {
-  return prisma.inventory.findMany({
-    where: {
-      name: {
-        contains: name,
-        mode: "insensitive"
-      },
-      deletedAt: null
-    }
-  });
-}
-
-
-/* =========================
-   CRON / CLEANUP
-   ========================= */
-
+// permanently delete inventories that were soft deleted more than 30 days ago for a user
 export function permanentlyDeleteOldInventories() {
   const THIRTY_DAYS_AGO = new Date(
     Date.now() - 30 * 24 * 60 * 60 * 1000

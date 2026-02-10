@@ -14,12 +14,16 @@
   "description": "Backend service for inventory management",
   "dependencies": {
     "@prisma/client": "^6.19.2",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "helmet": "^8.1.0",
     "morgan": "^1.10.1",
     "node-cron": "^4.2.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "uuid": "^13.0.0",
     "zod": "^4.3.6"
   },
