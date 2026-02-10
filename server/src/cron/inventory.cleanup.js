@@ -10,4 +10,3 @@ cron.schedule("0 2 * * *", async () => {
     console.error("Cron error:", err);
   }
 });
-

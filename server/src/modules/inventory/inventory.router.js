@@ -1,22 +1,29 @@
 import { Router } from "express";
 
+import validateZod from "../../middleware/zod.validation.js";
+
+import { registerInventorySchema, updateInventorySchema } from "./inventory.model.js";
+
+import isAuthenticated from "../../middleware/auth.middleware.js";
+
 import {
-  getAllInventoriesController, getInventoryByIdController,
+  findByUserIdController, findByIdController,
   createInventoryController, updateInventoryController,
   deleteInventoryController, recoverInventoryController,
-  getDeletedInventoriesController, getInventoryByNameController
+  findDeletedInventoriesController
 } from "./inventory.controller.js";
 
 const router = Router();
 
-router.get("/", getAllInventoriesController);
-router.get("/deleted", getDeletedInventoriesController);
-router.get("/:id", getInventoryByIdController);
+router.use(isAuthenticated);
 
-router.get("/by-name/:name", getInventoryByNameController)
+router.get("/", findByUserIdController);
+router.get("/deleted", findDeletedInventoriesController);
+router.get("/:id", findByIdController);
 
-router.post("/", createInventoryController);
-router.patch("/:id", updateInventoryController);
+router.post("/", validateZod(registerInventorySchema), createInventoryController);
+router.patch("/:id", validateZod(updateInventorySchema), updateInventoryController);
+
 router.delete("/:id", deleteInventoryController);
 router.patch("/:id/recover", recoverInventoryController);
 
