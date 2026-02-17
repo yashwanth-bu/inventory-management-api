@@ -1,35 +1,29 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:3000/api/inventory"
+  baseURL: "http://localhost:3000/api",
+  withCredentials: true
 });
 
-// GET all 
+// INVENTORY ROUTES
+
 export const getAllInventory = (params) =>
-  API.get("/", { params });
+  API.get("/inventory", { params });
 
-// GET by id
-export const getInventoryById = (id) => API.get(`/${id}`);
+export const getInventoryById = (id) =>
+  API.get(`/inventory/${id}`);
 
-// GET deleted
-export const getDeletedInventory = () => API.get("/deleted");
+export const getDeletedInventory = () =>
+  API.get("/inventory/deleted");
 
-// GET by name (direct route — still usable if needed)
-export const getInventoryByName = (name) =>
-  API.get(`/by-name/${name}`);
-
-// CREATE
 export const createInventory = (data) =>
-  API.post("/", data);
+  API.post("/inventory", data);
 
-// UPDATE
 export const updateInventory = (id, data) =>
-  API.patch(`/${id}`, data);
+  API.patch(`/inventory/${id}`, data);
 
-// DELETE
 export const deleteInventory = (id) =>
-  API.delete(`/${id}`);
+  API.delete(`/inventory/${id}`);
 
-// RECOVER
 export const recoverInventory = (id) =>
-  API.patch(`/${id}/recover`);
+  API.patch(`/inventory/${id}/recover`);
